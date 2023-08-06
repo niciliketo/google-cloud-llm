@@ -5,20 +5,7 @@ RSpec.describe GcpLlm::Client do
       let(:cassette) { "models list" }
 
       it "succeeds" do
-        VCR.use_cassette(cassette) do
-          expect(response.dig("data", 0, "object")).to eq("model")
-        end
-      end
-    end
-
-    describe "#retrieve" do
-      let(:cassette) { "models retrieve" }
-      let(:response) { GcpLlm::Client.new.models.retrieve(id: "text-ada-001") }
-
-      it "succeeds" do
-        VCR.use_cassette(cassette) do
-          expect(response["object"]).to eq("model")
-        end
+        expect(response.class).to eq(Array)
       end
     end
   end

@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://us-central1-aiplatform.googleapis.com/v1/projects/<GCP_PROJECT_ID>/locations/us-central1/publishers/google/models/text-bison@001:predict
+    body:
+      encoding: UTF-8
+      string: '{"instances":[{"content":"Once upon a time"}],"parameters":{"temperature":0.2,"topP":0.8,"topK":40,"maxOutputTokens":5}}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <GCP_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Sun, 06 Aug 2023 15:40:39 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Cache-Control:
+      - private
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "predictions": [
+            {
+              "content": ", there was a little",
+              "citationMetadata": {
+                "citations": []
+              },
+              "safetyAttributes": {
+                "categories": [
+                  "Death, Harm & Tragedy"
+                ],
+                "scores": [
+                  0.1
+                ],
+                "blocked": false
+              }
+            }
+          ],
+          "metadata": {
+            "tokenMetadata": {
+              "outputTokenCount": {
+                "totalBillableCharacters": 16,
+                "totalTokens": 6
+              },
+              "inputTokenCount": {
+                "totalTokens": 4,
+                "totalBillableCharacters": 13
+              }
+            }
+          }
+        }
+  recorded_at: Sun, 06 Aug 2023 15:40:39 GMT
+recorded_with: VCR 6.1.0
