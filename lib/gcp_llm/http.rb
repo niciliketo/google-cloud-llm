@@ -70,30 +70,30 @@ module GcpLlm
     end
 
     def uri(path:)
-      if GcpLlm.configuration.api_type == :azure
-        base = File.join(GcpLlm.configuration.uri_base, path)
-        "#{base}?api-version=#{GcpLlm.configuration.api_version}"
-      else
-        File.join(GcpLlm.configuration.uri_base, GcpLlm.configuration.api_version, path)
-      end
+      # if GcpLlm.configuration.api_type == :azure
+      #  base = File.join(GcpLlm.configuration.uri_base, path)
+      #  "#{base}?api-version=#{GcpLlm.configuration.api_version}"
+      # else
+      File.join(GcpLlm.configuration.uri_base, path)
+      # end
     end
 
     def headers
-      return azure_headers if GcpLlm.configuration.api_type == :azure
+      # return azure_headers if GcpLlm.configuration.api_type == :azure
 
       {
         "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{GcpLlm.configuration.access_token}",
-        "GcpLlm-Organization" => GcpLlm.configuration.organization_id
+        "Authorization" => "Bearer #{GcpLlm.configuration.access_token}" # ,
+        # "GcpLlm-Organization" => GcpLlm.configuration.organization_id
       }
     end
 
-    def azure_headers
-      {
-        "Content-Type" => "application/json",
-        "api-key" => GcpLlm.configuration.access_token
-      }
-    end
+    # def azure_headers
+    #   {
+    #     "Content-Type" => "application/json",
+    #     "api-key" => GcpLlm.configuration.access_token
+    #   }
+    # end
 
     def multipart_parameters(parameters)
       parameters&.transform_values do |value|

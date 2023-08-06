@@ -9,8 +9,8 @@ module GcpLlm
       GcpLlm.configuration.request_timeout = request_timeout if request_timeout
     end
 
-    def chat(parameters: {})
-      GcpLlm::Client.json_post(path: "/chat/completions", parameters: parameters)
+    def chat(parameters: {}, instances: {})
+      GcpLlm::Client.json_post(path: "/chat/completions", parameters:, instances:)
     end
 
     def completions(parameters: {})
