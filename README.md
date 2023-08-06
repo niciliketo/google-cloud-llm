@@ -1,3 +1,4 @@
+llm-experiment branch
 # Ruby GCP LLM
 
 TODO:
@@ -8,13 +9,6 @@ TODO:
 
 Use the [GcpLlm API](https://gcp_llm.com/blog/gcp_llm-api/) with Ruby! 🤖❤️
 
-Stream text with GPT-4, transcribe and translate audio with Whisper, or create images with DALL·E...
-
-[Ruby AI Builders Discord](https://discord.gg/k4Uc224xVD)
-
-[Quick guide to streaming ChatGPT with Rails 7 and Hotwire](https://gist.github.com/alexrudall/cb5ee1e109353ef358adb4e66631799d)
-
-Follow me on [Twitter](https://twitter.com/alexrudall) for more Ruby / AI content
 
 ### Bundler
 
@@ -42,15 +36,21 @@ require "gcp_llm"
 
 ## Usage
 
-- Get your API key from [https://platform.gcp_llm.com/account/api-keys](https://platform.gcp_llm.com/account/api-keys)
-- If you belong to multiple organizations, you can get your Organization ID from [https://platform.gcp_llm.com/account/org-settings](https://platform.gcp_llm.com/account/org-settings)
+- Get your configuration from [https://console.cloud.google.com/vertex-ai/generative/language/create/text](https://console.cloud.google.com/vertex-ai/generative/language/create/text)
+- You will need:
+-- ACCESS_TOKEN
+-- PROJECT_ID
+- You can also configure:
+-- API_ENDPOINT
+-- MODEL_ID
+
 
 ### Quickstart
 
 For a quick test you can pass your token directly to a new client:
 
 ```ruby
-client = GcpLlm::Client.new(access_token: "access_token_goes_here")
+client = GcpLlm::Client.new(access_token: "access_token_goes_here", project_id: "project_id_goes_here")
 ```
 
 ### With Config
@@ -59,8 +59,10 @@ For a more robust setup, you can configure the gem with your API keys, for examp
 
 ```ruby
 GcpLlm.configure do |config|
-    config.access_token = ENV.fetch("OPENAI_ACCESS_TOKEN")
-    config.organization_id = ENV.fetch("OPENAI_ORGANIZATION_ID") # Optional.
+    config.access_token = ENV.fetch("GCP_LLM_ACCESS_TOKEN")
+    config.project_id = ENV.fetch("GCP_LLM_PROJECT_ID")
+    config.api_endpoint = ENV.fetch("GCP_LLM_API_ENDPOINT")
+    config.model_id = ENV.fetch("GCP_LLM_MODEL_ID") # optional
 end
 ```
 
@@ -77,7 +79,7 @@ The default timeout for any request using this library is 120 seconds. You can c
 ```ruby
 client = GcpLlm::Client.new(
     access_token: "access_token_goes_here",
-    uri_base: "https://oai.hconeai.com/",
+    project_id: "project_id_goes_here")
     request_timeout: 240
 )
 ```
@@ -86,29 +88,15 @@ or when configuring the gem:
 
 ```ruby
 GcpLlm.configure do |config|
-    config.access_token = ENV.fetch("OPENAI_ACCESS_TOKEN")
-    config.organization_id = ENV.fetch("OPENAI_ORGANIZATION_ID") # Optional
-    config.uri_base = "https://oai.hconeai.com/" # Optional
+    config.access_token = ENV.fetch("GCP_LLM_ACCESS_TOKEN")
+    config.project_id = ENV.fetch("GCP_LLM_PROJECT_ID")
+    config.api_endpoint = ENV.fetch("GCP_LLM_API_ENDPOINT")
+    config.model_id = ENV.fetch("GCP_LLM_MODEL_ID") # optional
     config.request_timeout = 240 # Optional
 end
 ```
 
-#### Azure
-
-To use the [Azure GcpLlm Service](https://learn.microsoft.com/en-us/azure/cognitive-services/gcp_llm/) API, you can configure the gem like this:
-
-```ruby
-    GcpLlm.configure do |config|
-        config.access_token = ENV.fetch("AZURE_OPENAI_API_KEY")
-        config.uri_base = ENV.fetch("AZURE_OPENAI_URI")
-        config.api_type = :azure
-        config.api_version = "2023-03-15-preview"
-    end
-```
-
-where `AZURE_OPENAI_URI` is e.g. `https://custom-domain.gcp_llm.azure.com/gcp_llm/deployments/gpt-35-turbo`
-
-### Models
+### TODO: Models
 
 There are different models that can be used to generate text. For a full list and to retrieve information about a single model:
 
@@ -117,7 +105,7 @@ client.models.list
 client.models.retrieve(id: "text-ada-001")
 ```
 
-#### Examples
+#### TODO: Examples
 
 - [GPT-4 (limited beta)](https://platform.gcp_llm.com/docs/models/gpt-4)
   - gpt-4
@@ -132,7 +120,7 @@ client.models.retrieve(id: "text-ada-001")
   - text-babbage-001
   - text-curie-001
 
-### ChatGPT
+### TODO: ChatGPT
 
 ChatGPT is a model that can be used to generate text in a conversational style. You can use it to [generate a response](https://platform.gcp_llm.com/docs/api-reference/chat/create) to a sequence of [messages](https://platform.gcp_llm.com/docs/guides/chat/introduction):
 
@@ -147,7 +135,7 @@ puts response.dig("choices", 0, "message", "content")
 # => "Hello! How may I assist you today?"
 ```
 
-### Streaming ChatGPT
+### TODO: Streaming ChatGPT
 
 [Quick guide to streaming ChatGPT with Rails 7 and Hotwire](https://gist.github.com/alexrudall/cb5ee1e109353ef358adb4e66631799d)
 
@@ -166,7 +154,7 @@ client.chat(
 # => "Anna is a young woman in her mid-twenties, with wavy chestnut hair that falls to her shoulders..."
 ```
 
-### Functions
+### TODO: Functions
 
 You can describe and pass in functions and the model will intelligently choose to output a JSON object containing arguments to call those them. For example, if you want the model to use your method `get_current_weather` to get the current weather in a given location:
 
@@ -226,7 +214,7 @@ end
 # => "The weather is nice 🌞"
 ```
 
-### Completions
+### TODO: Completions
 
 Hit the GcpLlm API for a completion using other GPT-3 models:
 
@@ -241,7 +229,7 @@ puts response["choices"].map { |c| c["text"] }
 # => [", there lived a great"]
 ```
 
-### Edits
+### TODO: Edits
 
 Send a string and some instructions for what to do to the string:
 
@@ -257,7 +245,7 @@ puts response.dig("choices", 0, "text")
 # => What day of the week is it?
 ```
 
-### Embeddings
+### TODO: Embeddings
 
 You can use the embeddings endpoint to get a vector of numbers representing an input. You can then compare these vectors for different inputs to efficiently check how similar the inputs are.
 
@@ -273,7 +261,7 @@ puts response.dig("data", 0, "embedding")
 # => Vector representation of your embedding
 ```
 
-### Files
+### TODO: Files
 
 Put your data in a `.jsonl` file like this:
 
@@ -292,7 +280,7 @@ client.files.content(id: "file-123")
 client.files.delete(id: "file-123")
 ```
 
-### Fine-tunes
+### TODO: Fine-tunes
 
 Upload your fine-tuning data in a `.jsonl` file as above and get its ID:
 
@@ -344,45 +332,7 @@ You can delete the fine-tuned model when you are done with it:
 client.finetunes.delete(fine_tuned_model: fine_tuned_model)
 ```
 
-### Image Generation
-
-Generate an image using DALL·E! The size of any generated images must be one of `256x256`, `512x512` or `1024x1024` -
-if not specified the image will default to `1024x1024`.
-
-```ruby
-response = client.images.generate(parameters: { prompt: "A baby sea otter cooking pasta wearing a hat of some sort", size: "256x256" })
-puts response.dig("data", 0, "url")
-# => "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Rf437IxKhh..."
-```
-
-![Ruby](https://i.ibb.co/6y4HJFx/img-d-Tx-Rf-RHj-SO5-Gho-Cbd8o-LJvw3.png)
-
-### Image Edit
-
-Fill in the transparent part of an image, or upload a mask with transparent sections to indicate the parts of an image that can be changed according to your prompt...
-
-```ruby
-response = client.images.edit(parameters: { prompt: "A solid red Ruby on a blue background", image: "image.png", mask: "mask.png" })
-puts response.dig("data", 0, "url")
-# => "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Rf437IxKhh..."
-```
-
-![Ruby](https://i.ibb.co/sWVh3BX/dalle-ruby.png)
-
-### Image Variations
-
-Create n variations of an image.
-
-```ruby
-response = client.images.variations(parameters: { image: "image.png", n: 2 })
-puts response.dig("data", 0, "url")
-# => "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Rf437IxKhh..."
-```
-
-![Ruby](https://i.ibb.co/TWJLP2y/img-miu-Wk-Nl0-QNy-Xtj-Lerc3c0l-NW.png)
-![Ruby](https://i.ibb.co/ScBhDGB/img-a9-Be-Rz-Au-Xwd-AV0-ERLUTSTGdi.png)
-
-### Moderations
+### TODO: Moderations
 
 Pass a string to check if it violates GcpLlm's Content Policy:
 
@@ -392,49 +342,17 @@ puts response.dig("results", 0, "category_scores", "hate")
 # => 5.505014632944949e-05
 ```
 
-### Whisper
-
-Whisper is a speech to text model that can be used to generate text based on audio files:
-
-#### Translate
-
-The translations API takes as input the audio file in any of the supported languages and transcribes the audio into English.
-
-```ruby
-response = client.translate(
-    parameters: {
-        model: "whisper-1",
-        file: File.open("path_to_file", "rb"),
-    })
-puts response["text"]
-# => "Translation of the text"
-```
-
-#### Transcribe
-
-The transcriptions API takes as input the audio file you want to transcribe and returns the text in the desired output file format.
-
-```ruby
-response = client.transcribe(
-    parameters: {
-        model: "whisper-1",
-        file: File.open("path_to_file", "rb"),
-    })
-puts response["text"]
-# => "Transcription of the text"
-```
-
-## Development
+## TODO:  Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-### Warning
+### TODO: Warning
 
 If you have an `OPENAI_ACCESS_TOKEN` in your `ENV`, running the specs will use this to run the specs against the actual API, which will be slow and cost you money - 2 cents or more! Remove it from your environment with `unset` or similar if you just want to run the specs against the stored VCR responses.
 
-## Release
+## TODO: Release
 
 First run the specs without VCR so they actually hit the API. This will cost 2 cents or more. Set OPENAI_ACCESS_TOKEN in your environment or pass it in like this:
 
