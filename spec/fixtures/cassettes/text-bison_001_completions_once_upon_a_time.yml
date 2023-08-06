@@ -29,7 +29,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Sun, 06 Aug 2023 15:40:39 GMT
+      - Sun, 06 Aug 2023 16:30:41 GMT
       Server:
       - scaffolding on HTTPServer2
       Cache-Control:
@@ -50,18 +50,18 @@ http_interactions:
         {
           "predictions": [
             {
-              "content": ", there was a little",
               "citationMetadata": {
                 "citations": []
               },
+              "content": ", there was a little",
               "safetyAttributes": {
+                "blocked": false,
                 "categories": [
                   "Death, Harm & Tragedy"
                 ],
                 "scores": [
                   0.1
-                ],
-                "blocked": false
+                ]
               }
             }
           ],
@@ -72,11 +72,11 @@ http_interactions:
                 "totalTokens": 6
               },
               "inputTokenCount": {
-                "totalTokens": 4,
-                "totalBillableCharacters": 13
+                "totalBillableCharacters": 13,
+                "totalTokens": 4
               }
             }
           }
         }
-  recorded_at: Sun, 06 Aug 2023 15:40:39 GMT
+  recorded_at: Sun, 06 Aug 2023 16:30:41 GMT
 recorded_with: VCR 6.1.0

@@ -10,13 +10,10 @@ RSpec.describe GcpLlm::Client do
             {
               content: "Once upon a time"
             }
-          ] # ,
-          # parameters: {
-          #   temperature: 0.2,
-          #   topP: 0.8,
-          #   topK: 40,
-          #   maxOutputTokens: max_tokens
-          # }
+          ],
+          parameters: {
+            maxOutputTokens: max_tokens
+          }
         )
       end
       let(:text) { response.dig("predictions", 0, "content") }
