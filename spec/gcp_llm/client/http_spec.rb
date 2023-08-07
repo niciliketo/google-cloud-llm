@@ -18,8 +18,9 @@ RSpec.describe GcpLlm::HTTP do
     end
 
     describe ".get" do
-      let(:response) { GcpLlm::Client.new.models.list }
-
+      let(:response) do
+        GcpLlm::Client.new.completions(instances: [{ content: "Once upon a time" }])
+      end
       it "times out" do
         expect { response }.to raise_error do |error|
           expect(timeout_errors).to include(error.class)
@@ -29,17 +30,11 @@ RSpec.describe GcpLlm::HTTP do
 
     describe ".json_post" do
       let(:response) do
-        GcpLlm::Client.new.chat(
-          parameters: {
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: "Hello!" }],
-            stream: stream
-          }
-        )
+        GcpLlm::Client.new.completions(instances: [{ content: "Once upon a time" }])
       end
 
       context "not streaming" do
-        let(:stream) { false }
+        # let(:stream) { false }
 
         it "times out" do
           expect { response }.to raise_error do |error|
@@ -48,49 +43,20 @@ RSpec.describe GcpLlm::HTTP do
         end
       end
 
-      context "streaming" do
-        let(:chunks) { [] }
-        let(:stream) do
-          proc do |chunk, _bytesize|
-            chunks << chunk
-          end
-        end
+      #   context "streaming" do
+      #     let(:chunks) { [] }
+      #     let(:stream) do
+      #       proc do |chunk, _bytesize|
+      #         chunks << chunk
+      #       end
+      #     end
 
-        it "times out" do
-          expect { response }.to raise_error do |error|
-            expect(timeout_errors).to include(error.class)
-          end
-        end
-      end
-    end
-
-    describe ".multipart_post" do
-      let(:filename) { "sentiment.jsonl" }
-      let(:file) { File.join(RSPEC_ROOT, "fixtures/files", filename) }
-      let(:upload_purpose) { "fine-tune" }
-      let(:response) do
-        GcpLlm::Client.new.files.upload(
-          parameters: { file: file, purpose: upload_purpose }
-        )
-      end
-
-      it "times out" do
-        expect { response }.to raise_error do |error|
-          expect(timeout_errors).to include(error.class)
-        end
-      end
-    end
-
-    describe ".delete" do
-      let(:response) do
-        GcpLlm::Client.new.finetunes.delete(fine_tuned_model: "1a")
-      end
-
-      it "times out" do
-        expect { response }.to raise_error do |error|
-          expect(timeout_errors).to include(error.class)
-        end
-      end
+      #     it "times out" do
+      #       expect { response }.to raise_error do |error|
+      #         expect(timeout_errors).to include(error.class)
+      #       end
+      #     end
+      #   end
     end
   end
 
@@ -189,73 +155,27 @@ RSpec.describe GcpLlm::HTTP do
     let(:path) { "/chat" }
     let(:uri) { GcpLlm::Client.send(:uri, path: path) }
 
-    it { expect(uri).to eq("https://api.openai.com/v1/chat") }
+    it { expect(uri).to eq("https://us-central1-aiplatform.googleapis.com/v1/projects/chat") }
 
     context "uri_base without trailing slash" do
       before do
-        GcpLlm.configuration.uri_base = "https://api.openai.com"
+        GcpLlm.configuration.uri_base = "https://us-central1-aiplatform.googleapis.com/v1/projects"
       end
 
       after do
-        GcpLlm.configuration.uri_base = "https://api.openai.com/"
+        GcpLlm.configuration.uri_base = "https://us-central1-aiplatform.googleapis.com/v1/projects/"
       end
 
-      it { expect(uri).to eq("https://api.openai.com/v1/chat") }
-    end
-
-    describe "with Azure" do
-      before do
-        GcpLlm.configuration.uri_base = uri_base
-        GcpLlm.configuration.api_type = :azure
-      end
-
-      after do
-        GcpLlm.configuration.uri_base = "https://api.openai.com/"
-        GcpLlm.configuration.api_type = nil
-      end
-
-      let(:path) { "/chat" }
-      let(:uri) { GcpLlm::Client.send(:uri, path: path) }
-
-      context "with a trailing slash" do
-        let(:uri_base) { "https://custom-domain.openai.azure.com/openai/deployments/gpt-35-turbo/" }
-        it { expect(uri).to eq("https://custom-domain.openai.azure.com/openai/deployments/gpt-35-turbo/chat?api-version=v1") }
-      end
-
-      context "without a trailing slash" do
-        let(:uri_base) { "https://custom-domain.openai.azure.com/openai/deployments/gpt-35-turbo" }
-        it { expect(uri).to eq("https://custom-domain.openai.azure.com/openai/deployments/gpt-35-turbo/chat?api-version=v1") }
-      end
+      it { expect(uri).to eq("https://us-central1-aiplatform.googleapis.com/v1/projects/chat") }
     end
   end
 
   describe ".headers" do
-    before do
-      GcpLlm.configuration.api_type = :nil
-    end
-
     let(:headers) { GcpLlm::Client.send(:headers) }
 
     it {
       expect(headers).to eq({ "Authorization" => "Bearer #{GcpLlm.configuration.access_token}",
-                              "Content-Type" => "application/json", "GcpLlm-Organization" => nil })
+                              "Content-Type" => "application/json" })
     }
-
-    describe "with Azure" do
-      before do
-        GcpLlm.configuration.api_type = :azure
-      end
-
-      after do
-        GcpLlm.configuration.api_type = nil
-      end
-
-      let(:headers) { GcpLlm::Client.send(:headers) }
-
-      it {
-        expect(headers).to eq({ "Content-Type" => "application/json",
-                                "api-key" => GcpLlm.configuration.access_token })
-      }
-    end
   end
 end

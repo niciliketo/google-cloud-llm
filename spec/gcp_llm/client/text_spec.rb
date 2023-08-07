@@ -13,7 +13,8 @@ RSpec.describe GcpLlm::Client do
           ],
           parameters: {
             maxOutputTokens: max_tokens
-          }
+          },
+          model: model
         )
       end
       let(:text) { response.dig("predictions", 0, "content") }

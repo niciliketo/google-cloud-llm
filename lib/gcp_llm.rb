@@ -42,19 +42,19 @@ module GcpLlm
       return @access_token if @access_token
 
       error_text = "GcpLlm access token missing! See https://github.com/alexrudall/ruby-gcp-llm#usage"
-      # raise ConfigurationError, error_text
+      raise ConfigurationError, error_text
     end
 
     def project_id
       return @project_id if @project_id
 
       error_text = "GcpLlm project_id missing! See https://github.com/alexrudall/ruby-gcp-llm#usage"
-      # raise ConfigurationError, error_text
+      raise ConfigurationError, error_text
     end
 
     def uri
       # "https://%{@api_endpoint}/v1/projects/%{@project_id}/locations/us-central1/publishers/google/models/%{model_id}:predict"
-      "https://us-central1-aiplatform.googleapis.com/v1/projects/ai-test-project-389008/locations/us-central1/publishers/google/models/text-bison@001:predict"
+      "#{@uri_base}/#{project_id}/locations/us-central1/publishers/google/models/text-bison@001:predict"
     end
   end
 

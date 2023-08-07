@@ -5,18 +5,36 @@ RSpec.describe GcpLlm::Client do
       let(:stream) { false }
       let(:response) do
         GcpLlm::Client.new.chat(
-          parameters: {
-            model: model,
-            messages: messages,
-            stream: stream
-          }
+          instances: [
+            {
+              context: "You are a helpful assistant",
+              examples: [],
+              messages: [
+                {
+                  author: "user",
+                  content: "What is the capital of France"
+                },
+                {
+                  content: "Paris is the capital and largest city of France.",
+                  author: "bot",
+                  citationMetadata: {
+                    citations: []
+                  }
+                },
+                {
+                  author: "user",
+                  content: "What is the capital of Italy"
+                }
+              ]
+            }
+          ]
         )
       end
-      let(:content) { response.dig("choices", 0, "message", "content") }
+      let(:content) { response.dig("predictions", 0, "candidates", 0, "content") }
       let(:cassette) { "#{model} #{'streamed' if stream} chat".downcase }
 
-      context "with model: gpt-3.5-turbo" do
-        let(:model) { "gpt-3.5-turbo" }
+      context "with model: chat-bison@001" do
+        let(:model) { "chat-bison@001" }
 
         it "succeeds" do
           VCR.use_cassette(cassette) do
@@ -24,59 +42,59 @@ RSpec.describe GcpLlm::Client do
           end
         end
 
-        describe "streaming" do
-          let(:chunks) { [] }
-          let(:stream) do
-            proc do |chunk, _bytesize|
-              chunks << chunk
-            end
-          end
+        # describe "streaming" do
+        #   let(:chunks) { [] }
+        #   let(:stream) do
+        #     proc do |chunk, _bytesize|
+        #       chunks << chunk
+        #     end
+        #   end
 
-          it "succeeds" do
-            VCR.use_cassette(cassette) do
-              response
-              expect(chunks.dig(0, "choices", 0, "index")).to eq(0)
-            end
-          end
+        #   it "succeeds" do
+        #     VCR.use_cassette(cassette) do
+        #       response
+        #       expect(chunks.dig(0, "choices", 0, "index")).to eq(0)
+        #     end
+        #   end
 
-          context "with an object with a call method" do
-            let(:cassette) { "#{model} streamed chat without proc".downcase }
-            let(:stream) do
-              Class.new do
-                attr_reader :chunks
+        #   context "with an object with a call method" do
+        #     let(:cassette) { "#{model} streamed chat without proc".downcase }
+        #     let(:stream) do
+        #       Class.new do
+        #         attr_reader :chunks
 
-                def initialize
-                  @chunks = []
-                end
+        #         def initialize
+        #           @chunks = []
+        #         end
 
-                def call(chunk)
-                  @chunks << chunk
-                end
-              end.new
-            end
+        #         def call(chunk)
+        #           @chunks << chunk
+        #         end
+        #       end.new
+        #     end
 
-            it "succeeds" do
-              VCR.use_cassette(cassette) do
-                response
-                expect(stream.chunks.dig(0, "choices", 0, "index")).to eq(0)
-              end
-            end
-          end
+        #     it "succeeds" do
+        #       VCR.use_cassette(cassette) do
+        #         response
+        #         expect(stream.chunks.dig(0, "choices", 0, "index")).to eq(0)
+        #       end
+        #     end
+        #   end
 
-          context "with an object without a call method" do
-            let(:stream) { Object.new }
+        #   context "with an object without a call method" do
+        #     let(:stream) { Object.new }
 
-            it "raises an error" do
-              VCR.use_cassette(cassette) do
-                expect { response }.to raise_error(ArgumentError)
-              end
-            end
-          end
-        end
+        #     it "raises an error" do
+        #       VCR.use_cassette(cassette) do
+        #         expect { response }.to raise_error(ArgumentError)
+        #       end
+        #     end
+        #   end
+        # end
       end
 
-      context "with model: gpt-3.5-turbo-0301" do
-        let(:model) { "gpt-3.5-turbo-0301" }
+      context "with model: codechat-bison@001" do
+        let(:model) { "codechat-bison@001" }
 
         it "succeeds" do
           VCR.use_cassette(cassette) do
