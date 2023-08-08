@@ -1,32 +1,32 @@
 RSpec.describe "compatibility" do
   context "for moved constants" do
-    describe "::Ruby::GcpLlm::VERSION" do
-      it "is mapped to ::GcpLlm::VERSION" do
-        expect(Ruby::GcpLlm::VERSION).to eq(GcpLlm::VERSION)
+    describe "::Google::Cloud::LLM::VERSION" do
+      it "is mapped to ::Google::Cloud::LLM::VERSION" do
+        expect(Google::Cloud::LLM::VERSION).to eq(Google::Cloud::LLM::VERSION)
       end
     end
 
-    describe "::Ruby::GcpLlm::Error" do
-      it "is mapped to ::GcpLlm::Error" do
-        expect(Ruby::GcpLlm::Error).to eq(GcpLlm::Error)
-        expect(Ruby::GcpLlm::Error.new).to be_a(GcpLlm::Error)
-        expect(GcpLlm::Error.new).to be_a(Ruby::GcpLlm::Error)
+    describe "::Google::Cloud::LLM::Error" do
+      it "is mapped to ::Google::Cloud::LLM::Error" do
+        expect(Google::Cloud::LLM::Error).to eq(Google::Cloud::LLM::Error)
+        expect(Google::Cloud::LLM::Error.new).to be_a(Google::Cloud::LLM::Error)
+        expect(Google::Cloud::LLM::Error.new).to be_a(Google::Cloud::LLM::Error)
       end
     end
 
-    describe "::Ruby::GcpLlm::ConfigurationError" do
-      it "is mapped to ::GcpLlm::ConfigurationError" do
-        expect(Ruby::GcpLlm::ConfigurationError).to eq(GcpLlm::ConfigurationError)
-        expect(Ruby::GcpLlm::ConfigurationError.new).to be_a(GcpLlm::ConfigurationError)
-        expect(GcpLlm::ConfigurationError.new).to be_a(Ruby::GcpLlm::ConfigurationError)
+    describe "::Google::Cloud::LLM::ConfigurationError" do
+      it "is mapped to ::Google::Cloud::LLM::ConfigurationError" do
+        expect(Google::Cloud::LLM::ConfigurationError).to eq(Google::Cloud::LLM::ConfigurationError)
+        expect(Google::Cloud::LLM::ConfigurationError.new).to be_a(Google::Cloud::LLM::ConfigurationError)
+        expect(Google::Cloud::LLM::ConfigurationError.new).to be_a(Google::Cloud::LLM::ConfigurationError)
       end
     end
 
-    describe "::Ruby::GcpLlm::Configuration" do
-      it "is mapped to ::GcpLlm::Configuration" do
-        expect(Ruby::GcpLlm::Configuration).to eq(GcpLlm::Configuration)
-        expect(Ruby::GcpLlm::Configuration.new).to be_a(GcpLlm::Configuration)
-        expect(GcpLlm::Configuration.new).to be_a(Ruby::GcpLlm::Configuration)
+    describe "::Google::Cloud::LLM::Configuration" do
+      it "is mapped to ::Google::Cloud::LLM::Configuration" do
+        expect(Google::Cloud::LLM::Configuration).to eq(Google::Cloud::LLM::Configuration)
+        expect(Google::Cloud::LLM::Configuration.new).to be_a(Google::Cloud::LLM::Configuration)
+        expect(Google::Cloud::LLM::Configuration.new).to be_a(Google::Cloud::LLM::Configuration)
       end
     end
   end

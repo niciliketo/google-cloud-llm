@@ -1,19 +1,19 @@
-require_relative "lib/gcp_llm/version"
+require_relative "lib/google/cloud/llm/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "gcp_llm"
-  spec.version       = GcpLlm::VERSION
+  spec.name          = "google-cloud-llm"
+  spec.version       = Google::Cloud::LLM::VERSION
   spec.authors       = ["Nic"]
   spec.email         = ["nmartin@users.noreply.github.com"]
 
   spec.summary       = "GCP LLM API + Ruby! 🤖❤️"
-  spec.homepage      = "https://github.com/alexrudall/ruby-gcp-llm"
+  spec.homepage      = "https://github.com/niciliketo/ruby-gcp-llm"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/alexrudall/ruby-gcp-llm"
-  spec.metadata["changelog_uri"] = "https://github.com/alexrudall/ruby-gcp-llm/blob/main/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = "https://github.com/niciliketo/ruby-gcp-llm"
+  spec.metadata["changelog_uri"] = "https://github.com/niciliketo/ruby-gcp-llm/blob/main/CHANGELOG.md"
   spec.metadata["rubygems_mfa_required"] = "true"
 
   # Specify which files should be added to the gem when it is released.

@@ -1,14 +1,14 @@
-RSpec.describe GcpLlm::Client do
+RSpec.describe Google::Cloud::LLM::Client do
   describe "#completions: Vertex models" do
     context "with a prompt and max_tokens", :vcr do
       let(:prompt) { "Once upon a time" }
       let(:max_tokens) { 5 }
 
       let(:response) do
-        GcpLlm::Client.new.completions(
+        Google::Cloud::LLM::Client.new.completions(
           instances: [
             {
-              content: "Once upon a time"
+              content: prompt
             }
           ],
           parameters: {

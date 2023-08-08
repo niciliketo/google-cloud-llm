@@ -1,10 +1,10 @@
-RSpec.describe GcpLlm::Client do
+RSpec.describe Google::Cloud::LLM do
   describe "#chat" do
     context "with messages", :vcr do
       let(:messages) { [{ role: "user", content: "Hello!" }] }
       let(:stream) { false }
       let(:response) do
-        GcpLlm::Client.new.chat(
+        Google::Cloud::LLM::Client.new.chat(
           instances: [
             {
               context: "You are a helpful assistant",

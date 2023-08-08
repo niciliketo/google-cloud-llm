@@ -1,4 +1,4 @@
-RSpec.describe GcpLlm::HTTP do
+RSpec.describe Google::Cloud::LLM::HTTP do
   describe "with an aggressive timeout" do
     let(:timeout_errors) { [Faraday::ConnectionFailed, Faraday::TimeoutError] }
     let(:timeout) { 0 }
@@ -8,18 +8,18 @@ RSpec.describe GcpLlm::HTTP do
     before do
       VCR.turn_off!
       WebMock.allow_net_connect!
-      GcpLlm.configuration.request_timeout = timeout
+      Google::Cloud::LLM.configuration.request_timeout = timeout
     end
 
     after do
       VCR.turn_on!
       WebMock.disable_net_connect!
-      GcpLlm.configuration.request_timeout = GcpLlm::Configuration::DEFAULT_REQUEST_TIMEOUT
+      Google::Cloud::LLM.configuration.request_timeout = Google::Cloud::LLM::Configuration::DEFAULT_REQUEST_TIMEOUT
     end
 
     describe ".get" do
       let(:response) do
-        GcpLlm::Client.new.completions(instances: [{ content: "Once upon a time" }])
+        Google::Cloud::LLM::Client.new.completions(instances: [{ content: "Once upon a time" }])
       end
       it "times out" do
         expect { response }.to raise_error do |error|
@@ -30,7 +30,7 @@ RSpec.describe GcpLlm::HTTP do
 
     describe ".json_post" do
       let(:response) do
-        GcpLlm::Client.new.completions(instances: [{ content: "Once upon a time" }])
+        Google::Cloud::LLM::Client.new.completions(instances: [{ content: "Once upon a time" }])
       end
 
       context "not streaming" do
@@ -63,7 +63,7 @@ RSpec.describe GcpLlm::HTTP do
   describe ".to_json_stream" do
     context "with a proc" do
       let(:user_proc) { proc { |x| x } }
-      let(:stream) { GcpLlm::Client.send(:to_json_stream, user_proc: user_proc) }
+      let(:stream) { Google::Cloud::LLM::Client.send(:to_json_stream, user_proc: user_proc) }
 
       it "returns a proc" do
         expect(stream).to be_a(Proc)
@@ -145,7 +145,7 @@ RSpec.describe GcpLlm::HTTP do
   describe ".to_json" do
     context "with a jsonl string" do
       let(:body) { "{\"prompt\":\":)\"}\n{\"prompt\":\":(\"}\n" }
-      let(:parsed) { GcpLlm::Client.send(:to_json, body) }
+      let(:parsed) { Google::Cloud::LLM::Client.send(:to_json, body) }
 
       it { expect(parsed).to eq([{ "prompt" => ":)" }, { "prompt" => ":(" }]) }
     end
@@ -153,17 +153,17 @@ RSpec.describe GcpLlm::HTTP do
 
   describe ".uri" do
     let(:path) { "/chat" }
-    let(:uri) { GcpLlm::Client.send(:uri, path: path) }
+    let(:uri) { Google::Cloud::LLM::Client.send(:uri, path: path) }
 
     it { expect(uri).to eq("https://us-central1-aiplatform.googleapis.com/v1/projects/chat") }
 
     context "uri_base without trailing slash" do
       before do
-        GcpLlm.configuration.uri_base = "https://us-central1-aiplatform.googleapis.com/v1/projects"
+        Google::Cloud::LLM.configuration.uri_base = "https://us-central1-aiplatform.googleapis.com/v1/projects"
       end
 
       after do
-        GcpLlm.configuration.uri_base = "https://us-central1-aiplatform.googleapis.com/v1/projects/"
+        Google::Cloud::LLM.configuration.uri_base = "https://us-central1-aiplatform.googleapis.com/v1/projects/"
       end
 
       it { expect(uri).to eq("https://us-central1-aiplatform.googleapis.com/v1/projects/chat") }
@@ -171,10 +171,10 @@ RSpec.describe GcpLlm::HTTP do
   end
 
   describe ".headers" do
-    let(:headers) { GcpLlm::Client.send(:headers) }
+    let(:headers) { Google::Cloud::LLM::Client.send(:headers) }
 
     it {
-      expect(headers).to eq({ "Authorization" => "Bearer #{GcpLlm.configuration.access_token}",
+      expect(headers).to eq({ "Authorization" => "Bearer #{Google::Cloud::LLM.configuration.access_token}",
                               "Content-Type" => "application/json" })
     }
   end

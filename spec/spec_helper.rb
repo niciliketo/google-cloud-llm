@@ -1,7 +1,7 @@
 require "bundler/setup"
 require "dotenv/load"
-require "gcp_llm"
-require "gcp_llm/compatibility"
+require "google/cloud/llm"
+require "google/cloud/llm/compatibility"
 require "vcr"
 
 Dir[File.expand_path("spec/support/**/*.rb")].sort.each { |f| require f }
@@ -13,8 +13,8 @@ VCR.configure do |c|
     record: ENV.fetch("GCP_ACCESS_TOKEN", nil) ? :all : :new_episodes,
     match_requests_on: [:method, :uri, VCRMultipartMatcher.new]
   }
-  c.filter_sensitive_data("<GCP_ACCESS_TOKEN>") { GcpLlm.configuration.access_token }
-  c.filter_sensitive_data("<GCP_PROJECT_ID>") { GcpLlm.configuration.project_id }
+  c.filter_sensitive_data("<GCP_ACCESS_TOKEN>") { Google::Cloud::LLM.configuration.access_token }
+  c.filter_sensitive_data("<GCP_PROJECT_ID>") { Google::Cloud::LLM.configuration.project_id }
 end
 
 RSpec.configure do |c|
@@ -29,7 +29,7 @@ RSpec.configure do |c|
   end
 
   if ENV.fetch("GCP_ACCESS_TOKEN", nil)
-    warning = "WARNING! Specs are hitting the GcpLlm API using your GCP_ACCESS_TOKEN! This
+    warning = "WARNING! Specs are hitting the Google::Cloud::LLM API using your GCP_ACCESS_TOKEN! This
 costs at least 2 cents per run and is very slow! If you don't want this, unset
 GCP_ACCESS_TOKEN to just run against the stored VCR responses.".freeze
     warning = RSpec::Core::Formatters::ConsoleCodes.wrap(warning, :bold_red)
@@ -39,7 +39,7 @@ GCP_ACCESS_TOKEN to just run against the stored VCR responses.".freeze
   end
 
   if ENV.fetch("GCP_PROJECT_ID", nil)
-    warning = "WARNING! Specs are hitting the GcpLlm API using your GCP_PROJECT_ID! This
+    warning = "WARNING! Specs are hitting the Google::Cloud::LLM API using your GCP_PROJECT_ID! This
 costs at least 2 cents per run and is very slow! If you don't want this, unset
 GCP_PROJECT_ID to just run against the stored VCR responses.".freeze
     warning = RSpec::Core::Formatters::ConsoleCodes.wrap(warning, :bold_red)
@@ -49,10 +49,14 @@ GCP_PROJECT_ID to just run against the stored VCR responses.".freeze
   end
 
   c.before(:all) do
-    GcpLlm.configure do |config|
+    Google::Cloud::LLM.configure do |config|
       config.access_token = ENV.fetch("GCP_ACCESS_TOKEN", "dummy-token")
       config.project_id = ENV.fetch("GCP_PROJECT_ID", "dummy-project-id")
     end
+  end
+
+  c.after(:each) do |_x|
+    puts Google::Cloud::LLM.configuration.uri_base
   end
 end
 

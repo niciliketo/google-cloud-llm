@@ -1,7 +1,7 @@
-RSpec.describe GcpLlm::Client do
+RSpec.describe Google::Cloud::LLM::Client do
   describe "#models" do
     describe "#list", :vcr do
-      let(:response) { GcpLlm::Client.new.models.list }
+      let(:response) { Google::Cloud::LLM::Client.new.models.list }
       let(:cassette) { "models list" }
 
       it "succeeds" do
