@@ -15,7 +15,7 @@ Use the [Google::Cloud::LLM API](https://gcp_llm.com/blog/gcp_llm-api/) with Rub
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "ruby-gcp-llm"
+gem "google-cloud-llm"
 ```
 
 And then execute:
@@ -31,7 +31,7 @@ $ gem install ruby-gcp-llm
 and require with:
 
 ```ruby
-require "gcp_llm"
+require 'google/cloud/llm'
 ```
 
 ## Usage
