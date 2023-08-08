@@ -1,14 +1,15 @@
-llm-experiment branch
+acllm-experiment branch
 # Ruby GCP LLM
 
-TODO:
-
 [![Gem Version](https://badge.fury.io/rb/ruby-gcp-llm.svg)](https://badge.fury.io/rb/ruby-gcp-llm)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/alexrudall/ruby-gcp-llm/blob/main/LICENSE.txt)
-[![CircleCI Build Status](https://circleci.com/gh/alexrudall/ruby-gcp-llm.svg?style=shield)](https://circleci.com/gh/alexrudall/ruby-gcp-llm)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/niciliketo/google-cloud-llm/blob/main/LICENSE.txt)
+[![GitHub Build Status](https://github.com/niciliketo/google-cloud-llm/actions/workflows/ruby.yml/badge.svg)
 
 Use the [Google::Cloud::LLM API](https://gcp_llm.com/blog/gcp_llm-api/) with Ruby! 🤖❤️
 
+### Credits
+
+This library is heavily based on https://github.com/alexrudall/ruby-openai/ and the intention is to provide a similar interface to the one provided by that library.
 
 ### Bundler
 
