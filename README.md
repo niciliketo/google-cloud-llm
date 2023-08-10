@@ -39,11 +39,11 @@ require 'google/cloud/llm'
 
 - Get your configuration from [https://console.cloud.google.com/vertex-ai/generative/language/create/text](https://console.cloud.google.com/vertex-ai/generative/language/create/text)
 - You will need:
--- ACCESS_TOKEN
--- PROJECT_ID
+  - ACCESS_TOKEN
+  - PROJECT_ID
 - You can also configure:
--- API_ENDPOINT
--- MODEL_ID
+  - API_ENDPOINT
+  - MODEL_ID
 
 
 ### Quickstart
