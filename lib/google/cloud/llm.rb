@@ -1,5 +1,6 @@
 require "faraday"
 require "faraday/multipart"
+require "googleauth"
 
 require_relative "llm/http"
 require_relative "llm/client"
@@ -39,6 +40,15 @@ module Google
           @request_timeout = DEFAULT_REQUEST_TIMEOUT
           @project_id = nil
           @parameters = DEFAULT_PARAMETERS
+          google_auth if @access_token.nil?
+        end
+
+        def access_token_header
+          if @access_token
+            { "Authorization" => "Bearer #{Google::Cloud::LLM.configuration.access_token}" }
+          elsif @google_auth
+            @google_auth.apply({})
+          end
         end
 
         def access_token
@@ -50,6 +60,7 @@ module Google
 
         def project_id
           return @project_id if @project_id
+          return @google_auth.project_id if @google_auth
 
           error_text = "Google::Cloud::LLM project_id missing! See https://github.com/alexrudall/ruby-gcp-llm#usage"
           raise ConfigurationError, error_text
@@ -58,6 +69,14 @@ module Google
         def uri
           # "https://%{@api_endpoint}/v1/projects/%{@project_id}/locations/us-central1/publishers/google/models/%{model_id}:predict"
           "#{@uri_base}/#{project_id}/locations/us-central1/publishers/google/models/text-bison@001:predict"
+        end
+
+        private
+
+        # If the access token and project are not provided, we will try and obtain them using google auth
+        def google_auth
+          scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+          @google_auth ||= Google::Auth.get_application_default(scopes)
         end
       end
 
