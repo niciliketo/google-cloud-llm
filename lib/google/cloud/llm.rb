@@ -38,7 +38,6 @@ module Google
           @request_timeout = DEFAULT_REQUEST_TIMEOUT
           @project_id = nil
           @parameters = DEFAULT_PARAMETERS
-          google_auth if @access_token.nil?
         end
 
         def access_token_header
