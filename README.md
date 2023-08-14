@@ -37,21 +37,18 @@ require 'google/cloud/llm'
 
 ## Usage
 
-- Get your configuration from [https://console.cloud.google.com/vertex-ai/generative/language/create/text](https://console.cloud.google.com/vertex-ai/generative/language/create/text)
-- You will need:
--- ACCESS_TOKEN
--- PROJECT_ID
+- Authentication is performed using [google-auth-library-ruby](https://github.com/googleapis/google-auth-library-ruby)
 - You can also configure:
--- API_ENDPOINT
--- MODEL_ID
-
+  - API_ENDPOINT
+  - MODEL_ID
+- You can generate the correct config here [https://console.cloud.google.com/vertex-ai/generative/language/create/text](https://console.cloud.google.com/vertex-ai/generative/language/create/text)
 
 ### Quickstart
 
 For a quick test you can pass your token directly to a new client:
 
 ```ruby
-client = Google::Cloud::LLM::Client.new(access_token: "access_token_goes_here", project_id: "project_id_goes_here")
+client = Google::Cloud::LLM::Client.new
 ```
 
 ### With Config
@@ -60,7 +57,6 @@ For a more robust setup, you can configure the gem with your API keys, for examp
 
 ```ruby
 Google::Cloud::LLM.configure do |config|
-    config.access_token = ENV.fetch("GCP_LLM_ACCESS_TOKEN")
     config.project_id = ENV.fetch("GCP_LLM_PROJECT_ID")
     config.api_endpoint = ENV.fetch("GCP_LLM_API_ENDPOINT")
     config.model_id = ENV.fetch("GCP_LLM_MODEL_ID") # optional
@@ -79,8 +75,6 @@ The default timeout for any request using this library is 120 seconds. You can c
 
 ```ruby
 client = Google::Cloud::LLM::Client.new(
-    access_token: "access_token_goes_here",
-    project_id: "project_id_goes_here")
     request_timeout: 240
 )
 ```
@@ -89,8 +83,6 @@ or when configuring the gem:
 
 ```ruby
 Google::Cloud::LLM.configure do |config|
-    config.access_token = ENV.fetch("GCP_LLM_ACCESS_TOKEN")
-    config.project_id = ENV.fetch("GCP_LLM_PROJECT_ID")
     config.api_endpoint = ENV.fetch("GCP_LLM_API_ENDPOINT")
     config.model_id = ENV.fetch("GCP_LLM_MODEL_ID") # optional
     config.request_timeout = 240 # Optional
@@ -153,7 +145,7 @@ puts response.dig("predictions", 0, "content")
 
 ### Chat
 
-ChatGPT is a model that can be used to generate text in a conversational style. You can use it to [generate a response](https://cloud.google.com/vertex-ai/docs/generative-ai/language-model-overview):
+Chat can be used to generate text in a conversational style. You can use it to [generate a response](https://cloud.google.com/vertex-ai/docs/generative-ai/language-model-overview):
 
 ```ruby
 response = client.chat(
@@ -181,14 +173,14 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 ### Warning
 
-If you have an `GCP_ACCESS_TOKEN` and `GCP_PROJECT_ID` in your `ENV`, running the specs will use this to run the specs against the actual API, which will be slow and cost you money! Remove it from your environment with `unset` or similar if you just want to run the specs against the stored VCR responses.
+If you have an `GOOGLE_APPLICATION_CREDENTIALS` in your `ENV`, running the specs will use this to run the specs against the actual API, which will be slow and cost you money! Remove it from your environment with `unset` or similar if you just want to run the specs against the stored VCR responses.
 
 ## TODO: Release
 
-First run the specs without VCR so they actually hit the API. Set `GCP_ACCESS_TOKEN` and `GCP_PROJECT_ID` in your environment or pass it in like this:
+First run the specs without VCR so they actually hit the API. Set `GOOGLE_APPLICATION_CREDENTIALS` in your environment or pass it in like this:
 
 ```
-GCP_ACCESS_TOKEN=123abc GCP_PROJECT_ID=456def bundle exec rspec
+GOOGLE_APPLICATION_CREDENTIALS=path_to_json.json bundle exec rspec
 ```
 
 Then update the version number in `version.rb`, update `CHANGELOG.md`, run `bundle install` to update Gemfile.lock, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).

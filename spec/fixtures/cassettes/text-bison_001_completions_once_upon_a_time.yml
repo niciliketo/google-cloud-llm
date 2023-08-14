@@ -89,7 +89,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Mon, 07 Aug 2023 17:24:48 GMT
+      - Mon, 14 Aug 2023 20:14:22 GMT
       Server:
       - scaffolding on HTTPServer2
       Cache-Control:
@@ -114,10 +114,10 @@ http_interactions:
                 "citations": []
               },
               "safetyAttributes": {
+                "blocked": false,
                 "categories": [
                   "Death, Harm & Tragedy"
                 ],
-                "blocked": false,
                 "scores": [
                   0.1
                 ]
@@ -128,8 +128,8 @@ http_interactions:
           "metadata": {
             "tokenMetadata": {
               "outputTokenCount": {
-                "totalBillableCharacters": 16,
-                "totalTokens": 6
+                "totalTokens": 6,
+                "totalBillableCharacters": 16
               },
               "inputTokenCount": {
                 "totalBillableCharacters": 13,
@@ -138,5 +138,5 @@ http_interactions:
             }
           }
         }
-  recorded_at: Mon, 07 Aug 2023 17:24:48 GMT
+  recorded_at: Mon, 14 Aug 2023 20:14:22 GMT
 recorded_with: VCR 6.1.0

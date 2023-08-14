@@ -1,5 +1,6 @@
 RSpec.describe Google::Cloud::LLM do
   it "has a version number" do
+    puts Google::Cloud::LLM::VERSION
     expect(Google::Cloud::LLM::VERSION).not_to be nil
   end
 
@@ -27,15 +28,15 @@ RSpec.describe Google::Cloud::LLM do
       expect(Google::Cloud::LLM.configuration.request_timeout).to eq(120)
     end
 
-    context "without an access token" do
-      let(:access_token) { nil }
+    # context "without an access token" do
+    #   let(:access_token) { nil }
 
-      it "raises an error" do
-        expect do
-          Google::Cloud::LLM::Client.new.completions
-        end.to raise_error(Google::Cloud::LLM::ConfigurationError)
-      end
-    end
+    #   it "raises an error" do
+    #     expect do
+    #       Google::Cloud::LLM::Client.new.completions
+    #     end.to raise_error(Google::Cloud::LLM::ConfigurationError)
+    #   end
+    # end
 
     context "with custom timeout and uri base" do
       before do

@@ -174,8 +174,8 @@ RSpec.describe Google::Cloud::LLM::HTTP do
     let(:headers) { Google::Cloud::LLM::Client.send(:headers) }
 
     it {
-      expect(headers).to eq({ "Authorization" => "Bearer #{Google::Cloud::LLM.configuration.access_token}",
-                              "Content-Type" => "application/json" })
+      expect(headers).to eq(Google::Cloud::LLM.configuration.access_token_header
+                                              .merge("Content-Type" => "application/json"))
     }
   end
 end

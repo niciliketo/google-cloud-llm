@@ -14,6 +14,8 @@ module Google
         end
 
         def chat(parameters: {}, instances: {}, model: "chat-bison@001")
+          puts "parameters: #{parameters}"
+          puts "LLM params: #{Google::Cloud::LLM.configuration.parameters}"
           final_params = { instances: instances,
                            parameters: Google::Cloud::LLM.configuration.parameters.merge(parameters) }
           project_id = Google::Cloud::LLM.configuration.project_id

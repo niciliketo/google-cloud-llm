@@ -84,10 +84,10 @@ module Google
           # return azure_headers if Google::Cloud::LLM.configuration.api_type == :azure
 
           {
-            "Content-Type" => "application/json",
-            "Authorization" => "Bearer #{Google::Cloud::LLM.configuration.access_token}" # ,
+            "Content-Type" => "application/json" # ,
+            # "Authorization" =>  # ,
             # "Google::Cloud::LLM-Organization" => Google::Cloud::LLM.configuration.organization_id
-          }
+          }.merge(Google::Cloud::LLM.configuration.access_token_header)
         end
 
         # def azure_headers
