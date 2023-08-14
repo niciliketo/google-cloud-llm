@@ -1,5 +1,6 @@
 RSpec.describe Google::Cloud::LLM do
   it "has a version number" do
+    puts Google::Cloud::LLM::VERSION
     expect(Google::Cloud::LLM::VERSION).not_to be nil
   end
 

@@ -4,12 +4,11 @@ require "googleauth"
 
 require_relative "llm/http"
 require_relative "llm/client"
-# require_relative "gcp_llm/files"
-# require_relative "gcp_llm/finetunes"
-# require_relative "gcp_llm/images"
+# require_relative "llm/files"
+# require_relative "llm/finetunes"
+# require_relative "llm/images"
 require_relative "llm/models"
-# TODO: fix
-# require_relative "gcp_llm/version"
+require_relative "llm/version"
 
 module Google
   module Cloud
