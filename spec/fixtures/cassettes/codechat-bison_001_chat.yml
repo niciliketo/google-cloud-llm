@@ -32,7 +32,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Mon, 07 Aug 2023 17:24:46 GMT
+      - Mon, 14 Aug 2023 20:14:21 GMT
       Server:
       - scaffolding on HTTPServer2
       Cache-Control:
@@ -53,11 +53,6 @@ http_interactions:
         {
           "predictions": [
             {
-              "citationMetadata": [
-                {
-                  "citations": []
-                }
-              ],
               "safetyAttributes": [
                 {
                   "blocked": false,
@@ -67,24 +62,29 @@ http_interactions:
               ],
               "candidates": [
                 {
-                  "author": "bot",
-                  "content": "Rome is the capital of Italy."
+                  "content": "Rome is the capital and largest city of Italy.",
+                  "author": "bot"
+                }
+              ],
+              "citationMetadata": [
+                {
+                  "citations": []
                 }
               ]
             }
           ],
           "metadata": {
             "tokenMetadata": {
+              "outputTokenCount": {
+                "totalBillableCharacters": 38,
+                "totalTokens": 10
+              },
               "inputTokenCount": {
                 "totalBillableCharacters": 110,
                 "totalTokens": 27
-              },
-              "outputTokenCount": {
-                "totalBillableCharacters": 24,
-                "totalTokens": 7
               }
             }
           }
         }
-  recorded_at: Mon, 07 Aug 2023 17:24:46 GMT
+  recorded_at: Mon, 14 Aug 2023 20:14:21 GMT
 recorded_with: VCR 6.1.0
