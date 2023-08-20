@@ -17,7 +17,6 @@ RSpec.describe Google::Cloud::LLM do
       Google::Cloud::LLM.configure do |config|
         config.access_token = access_token
         config.project_id = project_id
-        # config.organization_id = organization_id
       end
     end
 
@@ -27,16 +26,6 @@ RSpec.describe Google::Cloud::LLM do
       expect(Google::Cloud::LLM.configuration.uri_base).to eq(standard_uri_base)
       expect(Google::Cloud::LLM.configuration.request_timeout).to eq(120)
     end
-
-    # context "without an access token" do
-    #   let(:access_token) { nil }
-
-    #   it "raises an error" do
-    #     expect do
-    #       Google::Cloud::LLM::Client.new.completions
-    #     end.to raise_error(Google::Cloud::LLM::ConfigurationError)
-    #   end
-    # end
 
     context "with custom timeout and uri base" do
       before do
