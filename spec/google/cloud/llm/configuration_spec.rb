@@ -3,7 +3,10 @@ RSpec.describe Google::Cloud::LLM::Configuration do
 
   describe "#project_id" do
     let(:config) { Google::Cloud::LLM::Configuration.new }
-    let(:fake_google_auth) { double("Google::Auth", project_id: fake_google_auth_project_id) }
+    let(:fake_google_auth) do
+      double("Google::Auth", try: fake_google_auth_project_id,
+                             project_id: fake_google_auth_project_id)
+    end
     let(:fake_google_auth_project_id) { "auth_project_id" }
 
     before do
@@ -38,7 +41,7 @@ RSpec.describe Google::Cloud::LLM::Configuration do
     end
 
     context "when no project_id is available" do
-      let(:fake_google_auth) { double("Google::Auth", project_id: nil) }
+      let(:fake_google_auth) { double("Google::Auth", try: nil, project_id: nil) }
       before do
         allow(Google::Cloud.env).to receive(:project_id).and_return(nil)
       end
