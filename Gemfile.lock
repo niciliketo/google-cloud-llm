@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    google-cloud-llm (0.0.1)
+    google-cloud-llm (0.0.2)
       faraday (>= 1)
       faraday-multipart (>= 1)
       googleauth
