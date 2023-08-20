@@ -1,6 +1,7 @@
 require "faraday"
 require "faraday/multipart"
 require "googleauth"
+require "google/cloud/env"
 
 require_relative "llm/http"
 require_relative "llm/client"
@@ -57,7 +58,8 @@ module Google
 
         def project_id
           return @project_id if @project_id
-          return @google_auth.project_id if google_auth
+          return @google_auth.project_id if google_auth.project_id
+          return Google::Cloud.env.project_id if Google::Cloud.env.project_id
 
           error_text = "Google::Cloud::LLM project_id missing! See https://github.com/alexrudall/ruby-gcp-llm#usage"
           raise ConfigurationError, error_text

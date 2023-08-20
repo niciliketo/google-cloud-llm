@@ -11,4 +11,5 @@ gem "rubocop", "~> 1.50.2"
 gem "vcr", "~> 6.1.0"
 gem "webmock", "~> 3.18.1"
 gem "googleauth"
+gem 'google-cloud-env'
 
