@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.2] - 2023-08-20
 
 ### Added
+version bump
+
+## [0.0.2] - 2023-08-20
+
+### Added
 Working specs
 Auth using Google Auth
 Project using Google::Cloud.env
